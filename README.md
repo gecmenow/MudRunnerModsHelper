@@ -15,3 +15,11 @@ And if you want to play multiplayer with your mates you need all time to move th
 Download archive, based on your file system x64 or x86 Winodws. Extract it, where it is convinient to you. **It's not needed to put it in the game's folder.** Both arhive files contain `Config.txt`. First row is a path that should lead to the game folder only (there is already an example path). Second row is a timeout, if your PC runs game pretty slow and it takes more than 10 seconds - replace the timeout to yours.
 
 When you are done and run the `.exe` file from your archive and it will do the magic for you. It moves files in `Media` folder to `temp` folder, launches the game, moves files back. And voila, you can play it with your mates without manual file manupulation.
+
+If you see this window - press `More info`
+![image](https://github.com/user-attachments/assets/8fcaba84-d333-4484-9f61-7eba3f9de9e3)
+
+Then press `Run anyway`
+![image](https://github.com/user-attachments/assets/61bafe2f-4adf-4114-a206-d61bcc41c730)
+
+it'll be just one-time prompt, because this .exe is not sertified as you might understand.
