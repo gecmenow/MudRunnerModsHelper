@@ -7,7 +7,8 @@ If you are already familiar with this helper, just download the archive you need
 So, what does it do?
 
 Imagine that you have file like these in the `Media` folder.
-![image](https://github.com/user-attachments/assets/15f726a8-0b27-4d92-aaa3-a59b02c33f80)
+![image](https://github.com/user-attachments/assets/6abbc06e-e115-4c5a-94d7-7c715254df45)
+
 
 And if you want to play multiplayer with your mates you need all time to move them from this folder before running the game and then return your files back. It's pretty annoying. This tool does it for you. But your input is required in the begining.
 
