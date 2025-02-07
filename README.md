@@ -1,8 +1,8 @@
 If you are already familiar with this helper, just download the archive you needed.
 
-[x64.zip](https://github.com/user-attachments/files/16862971/x64.zip)
+[x64.zip](https://github.com/user-attachments/files/18706401/x64.zip)
 
-[x86.zip](https://github.com/user-attachments/files/16862965/x86.zip)
+[x86.zip](https://github.com/user-attachments/files/18706402/x86.zip)
 
 So, what does it do?
 
