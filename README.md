@@ -6,7 +6,7 @@ If you are already familiar with this helper, just download the archive you need
 
 So, what does it do?
 
-Imagine that you have files structure like these in the `Media` folder.
+Imagine that you have files structure like this in the `Media` folder.
 
 ![image](https://github.com/user-attachments/assets/6abbc06e-e115-4c5a-94d7-7c715254df45)
 
