@@ -1,10 +1,31 @@
 ﻿using MudRunnerModsHelper;
 
-Folder.CheckFolderToExists();
+if (!Settings.Load())
+{
+    return;
+}
 
-Settings.SetMovingFoldersBackTimeout();
+Console.CancelKeyPress += (_, e) =>
+{
+    e.Cancel = true;
+    Folder.RollbackAction();
+    Environment.Exit(0);
+};
 
-Folder.MoveFilders();
+if (!Game.ValidateExecutable())
+{
+    return;
+}
+
+if (!Folder.CheckFolderExists())
+{
+    return;
+}
+
+if (!Folder.MoveFolders())
+{
+    return;
+}
 
 Game.Run();
 

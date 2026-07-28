@@ -2,65 +2,112 @@
 
 internal static class Folder
 {
-    private static List<(string SourcePath, string DestinationPath)> _movedFolders = [];
-    private static string TempPath = string.Empty;
+    private static readonly List<(string SourcePath, string DestinationPath)> MovedFolders = [];
+    private static string _tempPath = string.Empty;
     private static string[] _subdirectories = [];
 
-    private const string tempFolder = "temp";
+    private const string TempFolder = "temp";
 
-    public static void CheckFolderToExists()
+    public static bool CheckFolderExists()
     {
-        var mediaPath = File.ReadAllLines(Settings.Config).First() + @"\Media";
-        TempPath = Path.Combine(mediaPath, tempFolder);
+        var mediaPath = Path.Combine(Settings.GamePath, "Media");
+        _tempPath = Path.Combine(mediaPath, TempFolder);
 
         if (!Directory.Exists(mediaPath))
         {
             Console.WriteLine("Media folder is missing.");
-            return;
+            return false;
         }
 
-        // Get all subdirectories in the Media folder
-        _subdirectories = Directory.GetDirectories(mediaPath);
+        RecoverFromPreviousCrash(mediaPath);
 
-        if (_subdirectories.Length is 0)
+        _subdirectories = Directory.GetDirectories(mediaPath)
+            .Where(d => !string.Equals(Path.GetFileName(d), TempFolder, StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+
+        if (_subdirectories.Length == 0)
         {
             Console.WriteLine("Nothing to move. Exiting.");
-            return;
+            return false;
         }
+
+        return true;
     }
 
-    public static void MoveFilders()
+    private static void RecoverFromPreviousCrash(string mediaPath)
     {
-        Directory.CreateDirectory(TempPath);
+        if (!Directory.Exists(_tempPath))
+        {
+            return;
+        }
 
-        // Move subdirectories into the "temp" folder
+        var leftoverDirs = Directory.GetDirectories(_tempPath);
+        if (leftoverDirs.Length == 0)
+        {
+            Directory.Delete(_tempPath);
+            {
+                return;
+            }
+        }
+
+        Console.WriteLine("Detected leftover temp folder from a previous crash. Recovering...");
+
+        foreach (var dir in leftoverDirs)
+        {
+            var folderName = Path.GetFileName(dir);
+            var destinationPath = Path.Combine(mediaPath, folderName);
+            Directory.Move(dir, destinationPath);
+            Console.WriteLine($"Recovered {folderName}.");
+        }
+
+        Directory.Delete(_tempPath);
+        Console.WriteLine("Recovery complete.");
+    }
+
+    public static bool MoveFolders()
+    {
+        Directory.CreateDirectory(_tempPath);
+
         foreach (var subdir in _subdirectories)
         {
             var folderName = Path.GetFileName(subdir);
+            var destinationPath = Path.Combine(_tempPath, folderName);
 
-            var destinationPath = Path.Combine(TempPath, folderName);
-
-            // Move the folder and keep track of the move
-            Directory.Move(subdir, destinationPath);
-            _movedFolders.Add((subdir, destinationPath));
-            Console.WriteLine($"Moved {folderName} to temp.");
+            try
+            {
+                Directory.Move(subdir, destinationPath);
+                MovedFolders.Add((subdir, destinationPath));
+                Console.WriteLine($"Moved {folderName} to temp.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to move {folderName}: {ex.Message}");
+                Console.WriteLine("Rolling back...");
+                RollbackAction();
+                return false;
+            }
         }
+
+        return true;
     }
 
     public static void RollbackAction()
     {
-        var movedFolders = _movedFolders;
-
-        foreach (var (sourcePath, destinationPath) in movedFolders)
+        foreach (var (sourcePath, destinationPath) in MovedFolders)
         {
-            // Move folders back to their original locations
+            if (!Directory.Exists(destinationPath))
+            {
+                continue;
+            }
+
             Directory.Move(destinationPath, sourcePath);
             Console.WriteLine($"Rolled back {Path.GetFileName(sourcePath)} to original location.");
         }
 
-        movedFolders.Clear();
+        MovedFolders.Clear();
 
-        Directory.Delete(TempPath);
+        if (Directory.Exists(_tempPath))
+            Directory.Delete(_tempPath, recursive: Directory.GetFileSystemEntries(_tempPath).Length > 0);
 
         Console.WriteLine("Rollback completed.");
     }
