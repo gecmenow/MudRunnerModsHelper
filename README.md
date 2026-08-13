@@ -13,9 +13,13 @@ Imagine that you have files structure like this in the `Media` folder.
 
 And if you want to play multiplayer with your mates you need all time to move them from this folder before running the game and then return your files back. It's pretty annoying. This tool does it for you. But your input is required in the begining.
 
-Download archive, based on your file system x64 or x86 Winodws. Extract it, where it is convinient to you. **It's not needed to put it in the game's folder.** Both arhive files contain `Config.txt`. First row is a path that should lead to the game folder only (there is already an example path). Second row is a timeout, if your PC runs game pretty slow and it takes more than 10 seconds - replace the timeout to yours.
+Download archive, based on your file system x64 or x86 Winodws. Extract it, where it is convinient to you. Both arhive files contain `Config.txt`. First row is a path that should lead to the game folder only (there is already an example path). Second row is a timeout, if your PC runs game pretty slow and it takes more than 10 seconds - replace the timeout to yours.
 
-When you are done and run the `.exe` file from your archive and it will do the magic for you. It moves files in `Media` folder to `temp` folder, launches the game, moves files back. And voila, you can play it with your mates without manual file manupulation.
+**Tip: you can just drop the `.exe` right into the game's folder (next to `Mudrunner.exe`).** If there's no `Config.txt` next to the exe on startup, it is created automatically with a default 10 second timeout. When the exe sits in the game folder, the path is auto-populated too, so it's ready to run. When it sits elsewhere, a placeholder path is written and the tool asks you to set the real game folder path on the first line, then run again. If a `Config.txt` is already present, it is used as-is.
+
+The timeout (second row of `Config.txt`, in seconds) is the window you have after the game launches to create your lobby before the mods are restored. It starts counting the moment the game is launched, so make sure it covers the game's full load time **plus** the time you need to create the lobby.
+
+When you are done and run the `.exe` file it will do the magic for you. It moves the folders out of `Media` into a `temp` folder located **next to** `Media` (not inside it, so the game doesn't notice a change in `Media`), launches the game, then moves them back. And voila, you can play it with your mates without manual file manupulation.
 
 If you see this window - press `More info`.
 

@@ -11,7 +11,9 @@ internal static class Folder
     public static bool CheckFolderExists()
     {
         var mediaPath = Path.Combine(Settings.GamePath, "Media");
-        _tempPath = Path.Combine(mediaPath, TempFolder);
+        // Keep temp outside Media so moving mods doesn't alter Media's contents,
+        // which the game detects as a change.
+        _tempPath = Path.Combine(Settings.GamePath, TempFolder);
 
         if (!Directory.Exists(mediaPath))
         {
