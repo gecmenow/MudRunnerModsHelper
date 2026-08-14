@@ -20,8 +20,8 @@ When you run the helper it will:
 1. Ensure `Config.xml` contains `<MediaPath Path="Media" />` (adds it before `Media.zip` if missing).
 2. Move mod folders out of `Media` into a `temp` folder **next to** `Media` (not inside it, so the game doesn't notice a change in `Media`).
 3. Launch the game.
-4. Wait for you to press **Space** at the game's start prompt (the one that says to press Space to continue).
-5. Restore the mod folders back into `Media` about one second after Space is detected.
+4. Wait for you to press **Space** at the game's start prompt (the one that says to press Space to continue). Mods are restored about one second after Space is detected.
+5. If you don't press Space, mods are restored automatically after **30 seconds** as a fallback.
 
 And voila, you can play it with your mates without manual file manipulation.
 
