@@ -47,9 +47,7 @@ internal static class Folder
         if (leftoverDirs.Length == 0)
         {
             Directory.Delete(_tempPath);
-            {
-                return;
-            }
+            return;
         }
 
         Console.WriteLine("Detected leftover temp folder from a previous crash. Recovering...");
@@ -109,7 +107,9 @@ internal static class Folder
         MovedFolders.Clear();
 
         if (Directory.Exists(_tempPath))
+        {
             Directory.Delete(_tempPath, recursive: Directory.GetFileSystemEntries(_tempPath).Length > 0);
+        }
 
         Console.WriteLine("Rollback completed.");
     }

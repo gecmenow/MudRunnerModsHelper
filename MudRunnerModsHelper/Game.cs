@@ -5,18 +5,21 @@ namespace MudRunnerModsHelper;
 internal static class Game
 {
     private const string MudrunnerExe = "Mudrunner.exe";
-    
+
     public static bool ValidateExecutable()
     {
         var exePath = Path.Combine(Settings.GamePath, MudrunnerExe);
         if (File.Exists(exePath))
+        {
             return true;
+        }
 
         Console.WriteLine($"Game executable not found: {exePath}");
+        Console.WriteLine("Place the helper in the same folder as Mudrunner.exe.");
         return false;
     }
 
-    public static void Run()
+    public static Process Launch()
     {
         var exePath = Path.Combine(Settings.GamePath, MudrunnerExe);
 
@@ -26,16 +29,9 @@ internal static class Game
             FileName = exePath,
         };
 
-        using var process = new Process { StartInfo = startInfo };
+        var process = new Process { StartInfo = startInfo };
         process.Start();
-
-        var secondsRemaining = Settings.TimeoutMs / 1000;
-        for (var i = secondsRemaining; i > 0; i--)
-        {
-            Console.Write($"\rRestoring mods in {i}s...  ");
-            Thread.Sleep(1000);
-        }
-
-        Console.WriteLine();
+        Console.WriteLine("Game launched. Press Space at the start prompt to restore mods.");
+        return process;
     }
 }

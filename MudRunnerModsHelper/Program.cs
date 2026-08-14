@@ -1,10 +1,5 @@
 ﻿using MudRunnerModsHelper;
 
-if (!Settings.Load())
-{
-    return;
-}
-
 Console.CancelKeyPress += (_, e) =>
 {
     e.Cancel = true;
@@ -12,21 +7,15 @@ Console.CancelKeyPress += (_, e) =>
     Environment.Exit(0);
 };
 
-if (!Game.ValidateExecutable())
+if (!Game.ValidateExecutable()
+    || !GameConfig.EnsureMediaPath()
+    || !Folder.CheckFolderExists()
+    || !Folder.MoveFolders())
 {
     return;
 }
 
-if (!Folder.CheckFolderExists())
-{
-    return;
-}
-
-if (!Folder.MoveFolders())
-{
-    return;
-}
-
-Game.Run();
-
+var game = Game.Launch();
+SpaceKeyWaiter.WaitForSpace(game);
+Thread.Sleep(1000);
 Folder.RollbackAction();
