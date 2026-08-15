@@ -9,7 +9,7 @@ Console.CancelKeyPress += (_, e) =>
 
 if (!Game.ValidateExecutable()
     || !GameConfig.EnsureMediaPath()
-    || !Folder.CheckFolderExists()
+    || !Folder.VerifyFolderExists()
     || !Folder.MoveFolders())
 {
     return;

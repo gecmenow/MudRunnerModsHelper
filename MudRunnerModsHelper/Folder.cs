@@ -8,30 +8,20 @@ internal static class Folder
 
     private const string TempFolder = "temp";
 
-    public static bool CheckFolderExists()
+    public static bool VerifyFolderExists()
     {
         var mediaPath = Path.Combine(Settings.GamePath, "Media");
         // Keep temp outside Media so moving mods doesn't alter Media's contents,
         // which the game detects as a change.
         _tempPath = Path.Combine(Settings.GamePath, TempFolder);
 
-        if (!Directory.Exists(mediaPath))
-        {
-            Console.WriteLine("Media folder is missing.");
-            return false;
-        }
+        Directory.CreateDirectory(mediaPath);
 
         RecoverFromPreviousCrash(mediaPath);
 
         _subdirectories = Directory.GetDirectories(mediaPath)
             .Where(d => !string.Equals(Path.GetFileName(d), TempFolder, StringComparison.OrdinalIgnoreCase))
             .ToArray();
-
-        if (_subdirectories.Length == 0)
-        {
-            Console.WriteLine("Nothing to move. Exiting.");
-            return false;
-        }
 
         return true;
     }
